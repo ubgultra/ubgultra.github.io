@@ -142,7 +142,7 @@
     cursor: pointer;
   `;
   button.onclick = function() {
-    var link = prompt("Url?");
+    var link = prompt("Enter your URL with https:// at the front");
     var proxy = 'https://api.codetabs.com/v1/proxy?quest=';
     fetch(proxy + link)
       .then((response) => response.text())
