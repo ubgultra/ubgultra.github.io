@@ -1,0 +1,719 @@
+<html class="" lang="en"><head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="profile" href="https://www.w3.org/1999/xhtml/vocab">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>RetroEmulator.com</title>
+
+    <link rel="stylesheet" href="css/app.css?ver=104">
+    <link rel="stylesheet" href="css/theme.css?ver=104">
+    <link rel="stylesheet" href="css/jquery.toast.min.css?ver=104">
+    <link rel="stylesheet" href="css/font-awesome.min.css?ver=104">
+
+    <script src="libs/jquery.js?ver=104"></script>
+    <script src="libs/es6-promise.min.js?ver=104"></script>
+    <script src="libs/jquery.showmore.src.js?ver=104" type="text/javascript"></script>
+    <script src="libs/jquery.toast.min.js?ver=104" type="text/javascript"></script>
+    <script src="libs/jquery.loading.min.js?ver=104" type="text/javascript"></script>
+    <script src="libs/foundation.js?ver=104" type="text/javascript"></script>
+
+<meta class="foundation-mq"><script charset="utf-8" src="chrome-extension://donbcfbmhbcapadipfkeojnmajbakjdc/dist/ruffle.js?id=92970837993"></script></head>
+
+<body style="background-color: #000;width:100%;height:100%;overflow-y:hidden;">
+
+    <section class="fullwidth-game" style="margin:0;padding:0;height: 100%;width: 100%;">
+
+        <div class="row" style="max-width: 100%;height:100%">
+
+            <div class="large-12 columns" style="height: 100%;padding:0">
+
+                <div class="flex-game widescreen" style="height: 100%;">
+
+                    <canvas style="display:none;height: 100%;" id="canvas" oncontextmenu="event.preventDefault()"></canvas>
+
+                    <div class="process-loading" style="display: none"></div>
+
+                    <div class="game-loading" style="margin-top: 150px;">
+                        <div class="p">Downloading...</div>
+                        <div class="speed"></div>
+                    </div>
+
+                    <canvas id="screenshot" style="display: none" width="240" height="180"></canvas>
+
+                    <div class="fullscreenAdHocCheck" style="position: absolute; left : -999px; top : 0px; width: 20px; height: 20px"></div>
+
+                    <div class="control" style="display: none !important; position: absolute !important; bottom: 10px !important;">
+                    
+                        <a id="a-fullscreen" href="" class="fullscreen" style="display: inline-block" title="Full Screen"><i class="fa fa-expand"></i></a>
+                        <a id="a-pause" href="" title="Pause"><i class="fa fa-pause"></i></a>
+                        <a id="a-play" href="" title="Play" style="display: none"><i class="fa fa-play"></i></a>
+                        <a id="a-gamepad" href="" style="display: inline-block !important;" title="Controller Setting"><i class="fa fa-gamepad"></i></a>
+                        <!--<a href="" style="display: inline-block !important;" title="Save Game"><i class="fa fa-save"></i></a>
+                        <a href="" style="display: inline-block !important;" data-open="loadStates" title="Load Game"><i class="fa fa-folder-open-o"></i></a>-->
+                        <a id="a-download" href="" style="display: inline-block !important;" title="Download State"><i class="fa fa-download"></i></a>
+                        <a id="a-upload" href="" style="display: inline-block !important;" title="Upload State"><i class="fa fa-upload"></i></a>
+                        <a id="a-refresh" href="" style="display: inline-block !important;" title="Reset Game"><i class="fa fa-refresh"></i></a>
+                        <a id="a-sound" href="" style="display: inline-block !important;" title="Enable Sound"><i class="fa fa-music"></i></a>
+
+                        <input id="upload-state-field" type="file" style="display: none">
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- <div class="small reveal" id="netPlay" data-reveal>
+
+            <h1 class="title"></h1>
+
+            <div class="content">
+
+                <p class="delay"></p>
+
+                <div class="invite">
+                    Invite your friends to play this game together.
+                    <p><input type="text" class="invite_url" value="" style="width:100%" /></p>
+                </div>
+
+            </div>
+
+            <button class="close-button" data-close aria-label="Close modal" type="button">
+                <span aria-hidden="true">&times;</span>
+            </button>
+
+        </div> -->
+
+        
+
+        
+
+        
+
+        <div class="virtual-gamepad">
+           <!--<div class="top">
+              <div class="buttons b_l"></div>
+              <div class="buttons b_r"></div>
+           </div> -->
+           <div class="left">
+              <div class="buttons b_up"></div>
+              <div class="buttons b_up_left"></div>
+              <div class="buttons b_up_right"></div>
+              <div class="buttons b_down"></div>
+              <div class="buttons b_down_left"></div>
+              <div class="buttons b_down_right"></div>
+              <div class="buttons b_left"></div>
+              <div class="buttons b_right"></div>
+           </div>
+           <div class="center">
+              <div class="buttons b_select"></div>
+              <div class="buttons b_start"></div>
+           </div>
+           <div class="right">
+              <div class="buttons b_a">A</div>
+              <div class="buttons b_b">B</div>
+              <div class="buttons b_c">C</div>
+              <div class="buttons b_x">X</div>
+              <div class="buttons b_y">Y</div>
+              <div class="buttons b_z">Z</div>
+           </div>
+        </div>
+
+    </section>
+
+    <script>
+      var scripts_verion = 104;
+    </script>
+    <script src="js/retroLoader.js?ver=104" type="text/javascript"></script>
+
+
+
+
+<div class="reveal-overlay" tabindex="-1" aria-hidden="true"><div class="small reveal" id="loginModal" data-reveal="8ro3s3-reveal" role="dialog" aria-hidden="true" data-yeti-box="loginModal" data-resize="loginModal">
+            <h1 class="title">Great to have you back!</h1>
+            <div class="content">
+
+                <div class="login-form" style="display: block;border:none;width: 100%;position: static">
+
+                   <form method="post" action="">
+                      <div class="input-group">
+                         <span class="input-group-label"><i class="fa fa-user"></i></span>
+                         <input class="input-group-field" name="_username" type="text" placeholder="Enter username">
+                      </div>
+                      <div class="input-group">
+                         <span class="input-group-label"><i class="fa fa-lock"></i></span>
+                         <input class="input-group-field" name="_password" type="password" placeholder="Enter password">
+                      </div>
+                      <div class="checkbox">
+                         <input id="check1" type="checkbox" name="_remember_me" value="1">
+                         <label class="customLabel" for="check1">Remember me</label>
+                      </div>
+                      <input type="submit" name="submit" value="Login Now">
+                   </form>
+
+                   <p class="text-center">New here? <a target="_blank" class="newaccount" href="/register.html">Create a new Account</a></p>
+
+                   <h5 class="text-center">OR</h5>
+
+                   <div class="social-login" data-equalizer-watch="">
+                      <div class="social-login-btn facebook" style="max-width: 250px;margin: 0 auto;">
+                         <a href="#" class="fb-login"><i class="fa fa-facebook"></i>login via facebook</a>
+                      </div>
+                   </div>
+
+                </div>
+            </div>
+
+            <button class="close-button" data-close="" aria-label="Close modal" type="button">
+                <span aria-hidden="true">×</span>
+            </button>
+
+        </div></div><div class="reveal-overlay" tabindex="-1" aria-hidden="true"><div class="large reveal fill-height" id="loadStates" data-reveal="zuxire-reveal" role="dialog" aria-hidden="true" data-yeti-box="loadStates" data-resize="loadStates">
+
+            <h1 class="title">Load Game</h1>
+
+            <div class="content"></div>
+
+            <button class="close-button" data-close="" aria-label="Close modal" type="button">
+                <span aria-hidden="true">×</span>
+            </button>
+
+        </div></div><div class="reveal-overlay" tabindex="-1" aria-hidden="true"><div class="large reveal fill-height" id="controllerSetting" data-reveal="of7t28-reveal" role="dialog" aria-hidden="true" data-yeti-box="controllerSetting" data-resize="controllerSetting">
+
+           <h1 class="title">Controller Setting</h1>
+
+           <div class="content">
+
+              <div class="setting-form controllers-settings-form">
+
+                 <form method="post">
+
+                    <ul class="tabs " data-tabs="g9ndqj-tabs" id="controllers">
+
+                       <li class="tabs-title is-active" role="presentation"><a href="#controller-1" role="tab" aria-controls="controller-1" aria-selected="true" id="controller-1-label">P1</a></li>
+                       <li class="tabs-title" role="presentation"><a href="#controller-2" role="tab" aria-controls="controller-2" aria-selected="false" id="controller-2-label">P2</a></li>
+                       <li class="tabs-title" role="presentation"><a href="#controller-3" role="tab" aria-controls="controller-3" aria-selected="false" id="controller-3-label">P3</a></li>
+                       <li class="tabs-title" role="presentation"><a href="#controller-4" role="tab" aria-controls="controller-4" aria-selected="false" id="controller-4-label">P4</a></li>
+                    </ul>
+
+                    <div class="tabs-content controllers" data-tabs-content="controllers">
+
+                       <div class="tabs-panel is-active" id="controller-1" role="tabpanel" aria-hidden="false" aria-labelledby="controller-1-label">
+
+                          <div class="medium-3 small-3 columns"><label>SELECT:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="2" data-value="" data-type="" data-index="0" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>START:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="3" data-value="" data-type="" data-index="0" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>A:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="8" data-value="" data-type="" data-index="0" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>B:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="0" data-value="" data-type="" data-index="0" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>X:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="9" data-value="" data-type="" data-index="0" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>Y:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="1" data-value="" data-type="" data-index="0" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>UP:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="4" data-value="" data-type="" data-index="0" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>DOWN:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="5" data-value="" data-type="" data-index="0" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>LEFT:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="6" data-value="" data-type="" data-index="0" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>RIGHT:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="7" data-value="" data-type="" data-index="0" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>L:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="10" data-value="" data-type="" data-index="0" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>R:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="11" data-value="" data-type="" data-index="0" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>L2:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="12" data-value="" data-type="" data-index="0" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>R2:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="13" data-value="" data-type="" data-index="0" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>L3:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="14" data-value="" data-type="" data-index="0" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>R3:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="15" data-value="" data-type="" data-index="0" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>LEFT X PLUS:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="16" data-value="" data-type="" data-index="0" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>LEFT X MINUS:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="17" data-value="" data-type="" data-index="0" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>LEFT Y PLUS:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="18" data-value="" data-type="" data-index="0" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>LEFT Y MINUS:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="19" data-value="" data-type="" data-index="0" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>RIGHT X PLUS:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="20" data-value="" data-type="" data-index="0" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>RIGHT X MINUS:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="21" data-value="" data-type="" data-index="0" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>RIGHT Y PLUS:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="22" data-value="" data-type="" data-index="0" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>RIGHT Y MINUS:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="23" data-value="" data-type="" data-index="0" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="clearfix"></div>
+                       </div>
+
+                       <div class="tabs-panel" id="controller-2" role="tabpanel" aria-hidden="true" aria-labelledby="controller-2-label">
+
+                          <div class="medium-3 small-3 columns"><label>SELECT:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="2" data-value="" data-type="" data-index="1" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>START:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="3" data-value="" data-type="" data-index="1" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>A:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="8" data-value="" data-type="" data-index="1" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>B:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="0" data-value="" data-type="" data-index="1" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>X:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="9" data-value="" data-type="" data-index="1" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>Y:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="1" data-value="" data-type="" data-index="1" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>UP:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="4" data-value="" data-type="" data-index="1" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>DOWN:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="5" data-value="" data-type="" data-index="1" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>LEFT:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="6" data-value="" data-type="" data-index="1" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>RIGHT:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="7" data-value="" data-type="" data-index="1" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>L:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="10" data-value="" data-type="" data-index="1" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>R:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="11" data-value="" data-type="" data-index="1" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>L2:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="12" data-value="" data-type="" data-index="1" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>R2:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="13" data-value="" data-type="" data-index="1" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>L3:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="14" data-value="" data-type="" data-index="1" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>R3:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="15" data-value="" data-type="" data-index="1" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>LEFT X PLUS:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="16" data-value="" data-type="" data-index="1" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>LEFT X MINUS:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="17" data-value="" data-type="" data-index="1" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>LEFT Y PLUS:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="18" data-value="" data-type="" data-index="1" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>LEFT Y MINUS:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="19" data-value="" data-type="" data-index="1" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>RIGHT X PLUS:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="20" data-value="" data-type="" data-index="1" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>RIGHT X MINUS:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="21" data-value="" data-type="" data-index="1" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>RIGHT Y PLUS:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="22" data-value="" data-type="" data-index="1" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>RIGHT Y MINUS:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="23" data-value="" data-type="" data-index="1" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="clearfix"></div>
+                       </div>
+
+                       <div class="tabs-panel" id="controller-3" role="tabpanel" aria-hidden="true" aria-labelledby="controller-3-label">
+
+                          <div class="medium-3 small-3 columns"><label>SELECT:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="2" data-value="" data-type="" data-index="2" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>START:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="3" data-value="" data-type="" data-index="2" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>A:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="8" data-value="" data-type="" data-index="2" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>B:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="0" data-value="" data-type="" data-index="2" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>X:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="9" data-value="" data-type="" data-index="2" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>Y:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="1" data-value="" data-type="" data-index="2" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>UP:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="4" data-value="" data-type="" data-index="2" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>DOWN:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="5" data-value="" data-type="" data-index="2" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>LEFT:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="6" data-value="" data-type="" data-index="2" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>RIGHT:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="7" data-value="" data-type="" data-index="2" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>L:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="10" data-value="" data-type="" data-index="2" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>R:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="11" data-value="" data-type="" data-index="2" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>L2:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="12" data-value="" data-type="" data-index="2" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>R2:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="13" data-value="" data-type="" data-index="2" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>L3:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="14" data-value="" data-type="" data-index="2" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>R3:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="15" data-value="" data-type="" data-index="2" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>LEFT X PLUS:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="16" data-value="" data-type="" data-index="2" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>LEFT X MINUS:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="17" data-value="" data-type="" data-index="2" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>LEFT Y PLUS:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="18" data-value="" data-type="" data-index="2" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>LEFT Y MINUS:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="19" data-value="" data-type="" data-index="2" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>RIGHT X PLUS:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="20" data-value="" data-type="" data-index="2" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>RIGHT X MINUS:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="21" data-value="" data-type="" data-index="2" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>RIGHT Y PLUS:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="22" data-value="" data-type="" data-index="2" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>RIGHT Y MINUS:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="23" data-value="" data-type="" data-index="2" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="clearfix"></div>
+                       </div>
+
+                       <div class="tabs-panel" id="controller-4" role="tabpanel" aria-hidden="true" aria-labelledby="controller-4-label">
+
+                          <div class="medium-3 small-3 columns"><label>SELECT:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="2" data-value="" data-type="" data-index="3" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>START:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="3" data-value="" data-type="" data-index="3" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>A:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="8" data-value="" data-type="" data-index="3" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>B:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="0" data-value="" data-type="" data-index="3" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>X:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="9" data-value="" data-type="" data-index="3" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>Y:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="1" data-value="" data-type="" data-index="3" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>UP:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="4" data-value="" data-type="" data-index="3" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>DOWN:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="5" data-value="" data-type="" data-index="3" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>LEFT:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="6" data-value="" data-type="" data-index="3" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>RIGHT:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="7" data-value="" data-type="" data-index="3" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>L:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="10" data-value="" data-type="" data-index="3" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>R:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="11" data-value="" data-type="" data-index="3" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>L2:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="12" data-value="" data-type="" data-index="3" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>R2:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="13" data-value="" data-type="" data-index="3" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>L3:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="14" data-value="" data-type="" data-index="3" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>R3:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="15" data-value="" data-type="" data-index="3" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>LEFT X PLUS:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="16" data-value="" data-type="" data-index="3" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>LEFT X MINUS:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="17" data-value="" data-type="" data-index="3" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>LEFT Y PLUS:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="18" data-value="" data-type="" data-index="3" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>LEFT Y MINUS:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="19" data-value="" data-type="" data-index="3" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>RIGHT X PLUS:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="20" data-value="" data-type="" data-index="3" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>RIGHT X MINUS:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="21" data-value="" data-type="" data-index="3" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>RIGHT Y PLUS:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="22" data-value="" data-type="" data-index="3" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="medium-3 small-3 columns"><label>RIGHT Y MINUS:</label></div>
+                          <div class="medium-9 small-9 columns">
+                             <input type="text" data-id="23" data-value="" data-type="" data-index="3" data-gamepad-index="" readonly="" placeholder="">
+                          </div>
+
+                          <div class="clearfix"></div>
+                        </div>
+
+                        <div class="clearfix"></div>
+
+                      </div>
+                    </form>
+                </div>
+            </div>
+
+            <button class="close-button" data-close="" aria-label="Close modal" type="button">
+                <span aria-hidden="true">×</span>
+            </button>
+
+            <div class="actions">
+                <a class="button primary submit tiny" tabindex="0">Update</a>
+                <a class="button secondary tiny" data-close="" tabindex="1">Cancel</a>
+            </div>
+        </div></div></body></html>
