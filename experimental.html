@@ -18,3 +18,46 @@
   <nav id="mytopnav">
 <a href="/settings.html"><button class="button-6"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-gear" viewBox="0 0 16 16">
   <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492zM5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0z"></path>
+
+  <script>
+const options = [
+  "Time to go on Discord!",
+  "I hate school so much",
+  "Doge Unblocker is the best",
+  "V4 doesn't look much different from V3 to be honest",
+  "Check out the apps and games section!",
+  "Fun Fact: Australia is wider than the moon",
+  "Why are you here? Go study.",
+  "Right-Click to access more features",
+  "Fun Fact: You can set a custom background by going to settings.",
+  "We have spent and earned zero dollars from Doge Unblocker.",
+  "Tip: Tab Cloaking is highly recommended!",
+  "Did you know: A snail breathes through its foot",
+  "Fun Fact: 20% of Doge Unblocker was coded with ChatGPT",
+  "Join our Discord if you have any suggestions!",
+  "What is 9+10?",
+  "Tip: Enable authentication in settings.",
+  "Try our proxy on mobile!",
+  "Chromebooks are honestly L's",
+  "Fun Fact: Snakes can predict earthquakes",
+  "Bigfoot is real!",
+  "You can customize Doge Unblocker by going to Settings > Themes",
+  "Did you know: Octopuses have 3 hearts",
+  "Did you pray today? Cause if you didn't-",
+  "Are you piss? Cause urine my heart."
+];
+
+function getRandomOption() {
+  const randomNumber = Math.floor(Math.random() * options.length);
+  return options[randomNumber];
+}
+
+function setRandomPlaceholder() {
+  const placeholder = document.getElementById("placeholder");
+  placeholder.textContent = getRandomOption();
+}
+
+setRandomPlaceholder();
+
+document.getElementById("placeholder").addEventListener("click", setRandomPlaceholder);
+</script>
