@@ -16,16 +16,20 @@ WARNING: Links may sometimes be down. If so, try a different one.
 
 Instructions:
 
-Open ```devtools://devtools/bundled/devtools_app.html```
+1. Open ```devtools://devtools/bundled/devtools_app.html```
 
-Open one of the links above in a new tab (if they are blocked, cry in a corner)
+2. Open one of the links above in a new tab (if they are blocked, cry in a corner)
 
-Click on the "Network" tab, wait a couple seconds and double click the gray box
+3. Click on the "Network" tab, wait a couple seconds and double click the gray box
 
-Click the extension id button and paste in your blocking extension's id (it has to be installed by administrator and it has to have the ability to manage other extensions) (For Lightspeed the ID is adkcpkpghahmbopkjchobieckeoaoeem)
+4. Click the extension id button and paste in your blocking extension's id (it has to be installed by administrator and it has to have the ability to manage other extensions) (For Lightspeed the ID is adkcpkpghahmbopkjchobieckeoaoeem)
 
-Click Remove Bloat, then confirm, then press Disable Injected Extension
+5. Click Remove Bloat, then confirm, then press Disable Injected Extension
+
+DO NOT CLOSE THE RIGTOOLS DASHBOARD! You can close the 2 devtools windows.
 
 Note: After using rigtools, the chrome.management page will always be located at filesystem:chrome-extension://ext-id/temporary/index.html. It is recommended to bookmark this page as it persists after shutdown and is only overwritten by using rigtools again
+
+<h2>Important: On your first use of Rigtools on startup, the blocker may come back. Simply follow steps 4-5 again on your Rigtools dashboard</h2>
 
 Guide created by UBGUltra, exploit by Rigtools Team.
