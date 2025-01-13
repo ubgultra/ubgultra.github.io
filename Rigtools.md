@@ -1,6 +1,6 @@
-How to use RigTools (UPDATED)
+<h1>How to use RigTools (UPDATED)</h1>
 
-You need a Chromebook on v128 or below. Check the version at chrome://version
+<h2>You need a Chromebook on v128 or below. Check the version at chrome://version</h2>
 
 Links:
 
