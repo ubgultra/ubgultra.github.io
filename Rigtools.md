@@ -27,3 +27,5 @@ Click the extension id button and paste in your blocking extension's id (it has 
 Click Remove Bloat, then confirm, then press Disable Injected Extension
 
 Note: After using rigtools, the chrome.management page will always be located at filesystem:chrome-extension://ext-id/temporary/index.html. It is recommended to bookmark this page as it persists after shutdown and is only overwritten by using rigtools again
+
+Guide created by UBGUltra, exploit by Rigtools Team.
