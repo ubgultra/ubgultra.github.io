@@ -2,27 +2,17 @@
 
 <h2>You need a Chromebook on v128 or below. Check the version at chrome://version</h2>
 
-Links:
-
-```devtools://devtools/bundled/devtools_app.html?experiments=true&ws=rigtools.appleflyer.xyz:5506```
-
-```devtools://devtools/bundled/devtools_app.html?experiments=true&wss=rig.ccsd.store ``` 
-
-```devtools://devtools/bundled/devtools_app.html?experiments=true&ws=sincereham222.cc:8080```
-
-```devtools://devtools/bundled/devtools_app.html?experiments=true&wss=rwpk9g-8080.csb.app ```(updated UI)
-
 WARNING: Links may sometimes be down. If so, try a different one.
 
 Instructions:
 
 1. Open ```devtools://devtools/bundled/devtools_app.html```
 
-2. Open one of the links above in a new tab (if they are blocked, cry in a corner)
+2. Open ```devtools://devtools/bundled/devtools_app.html?experiments=true&ws=rig.kxtz.dev``` in a new tab (if it is blocked please notify me)
 
 3. Click on the "Network" tab, wait a couple seconds and double click the gray box
 
-4. Click the extension id button and paste in your blocking extension's id (it has to be installed by administrator and it has to have the ability to manage other extensions) (For Lightspeed the ID is adkcpkpghahmbopkjchobieckeoaoeem)
+4. Click the extension id button and paste in your blocking extension's id (it has to be installed by administrator and it has to have the ability to manage other extensions) (For Lightspeed the ID is ```adkcpkpghahmbopkjchobieckeoaoeem```)
 
 5. Click Remove Bloat, then confirm, then press Disable Injected Extension
 
