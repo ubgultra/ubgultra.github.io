@@ -23,3 +23,5 @@ Note: After using rigtools, the chrome.management page will always be located at
 <h2>Important: On your first use of Rigtools on startup, the blocker may come back. Simply follow steps 4-5 again on your Rigtools dashboard</h2>
 
 Guide created by UBGUltra, exploit by Rigtools Team.
+
+Hidden data is available on Github.com
