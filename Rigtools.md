@@ -24,4 +24,4 @@ Note: After using rigtools, the chrome.management page will always be located at
 
 Guide created by UBGUltra, exploit by Rigtools Team.
 
-Hidden data is available on Github.com
+For bigger issues join the Rigtools Discord, you can also email me at ```ubgultrateam@gmail.com```.
